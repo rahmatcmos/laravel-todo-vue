@@ -10,6 +10,7 @@ class UserRegistrationTest extends TestCase
 
 	private $faker = null;
 	private $url = '';
+	private $email = '';
 
 	public function __construct ()
 	{
@@ -74,7 +75,9 @@ class UserRegistrationTest extends TestCase
 	/** @test */
 	public function user_must_be_created ()
 	{
-		$this->post($this->url, $this->generateUserRegistrationForm())
+		$form = $this->generateUserRegistrationForm();
+		$this->email = $form['email'];
+		$this->post($this->url, $form)
 			 ->seeJson()
 			 ->seeJson([ 'error' => false ])
 			 ->seeJsonStructure([
@@ -83,6 +86,19 @@ class UserRegistrationTest extends TestCase
 					 'name',
 				 ],
 			 ]);
+	}
+
+	/** @test */
+	public function same_email_should_not_be_processes ()
+	{
+		$form = $this->generateUserRegistrationForm([
+			'password_length' => 3,
+		]);
+		$form['email'] = $this->email;
+
+		$this->post($this->url, $form)
+			 ->seeJsonStructure([ 'reasons' => [ 'email' ] ])
+			 ->seeJson([ 'error' => true ]);
 	}
 
 
