@@ -1,7 +1,10 @@
 {
     "name": "laravel/laravel",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "type": "project",
     "require": {
@@ -21,7 +24,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Helper\\": "helper/"
+            "Helper\\": "helper/",
+            "Tests\\": "tests/"
         }
     },
     "autoload-dev": {
